@@ -11,6 +11,7 @@ module.exports = function index(opts, done) {
         require('./src/init.js'),
 //        require('./src/npm-init.js'),
         require('./src/brackets.js'),
+        require('./src/editorconfig.js'),
         require('./src/gitignore.js'),
         require('./src/gitattributes.js'),
         require('./src/readme.js'),
