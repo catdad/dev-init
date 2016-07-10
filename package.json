@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "Initialize a new project with Kiril-approved settings",
   "main": "index.js",
-  "bin": "bin/cli.js",
+  "bin": {
+    "dev-init": "bin/cli.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node bin/cli.js"
@@ -15,5 +17,14 @@
     "lodash": "^4.13.1",
     "shellton": "^2.0.0",
     "yargs": "^4.7.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/catdad/dev-init.git"
+  },
+  "bugs": {
+    "url": "https://github.com/catdad/dev-init/issues"
+  },
+  "homepage": "https://github.com/catdad/dev-init#readme"
 }
