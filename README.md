@@ -11,7 +11,7 @@
 [10]: https://david-dm.org/catdad/dev-init.svg
 [11]: https://david-dm.org/catdad/dev-init
 
-Initialize your new git repo with Kiril-approved settings.
+This project will get you started and atomate a whole bunch of little things you need to do to every new project in order to work sanely with a team or accept contributions from other members of the open-source community. Since there are so many little steps, they take time and you always end up forgetting something and needing to make a bunch of tweaks later on. You should skip all of that, and just use this module to get up and running quickly.
 
 ## Install
 
