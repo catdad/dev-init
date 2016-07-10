@@ -44,6 +44,10 @@ You can define as many linters as you would like to use:
 git-init --linter ESLint --linter JSHint --linter JSCS
 ```
 
+### `.editorconfig`
+
+Kiril also approves of other IDEs. An [`.editorconfig`](http://editorconfig.org/) file will be created to configure a whole plethora of other IDEs. If your favorite IDE does not support it natively, there is probably a plugin for it.
+
 ### `README.md`
 
 An empty readme file will be created, to get you started and remind you that writing a readme is important.
