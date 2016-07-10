@@ -4,12 +4,12 @@
 [![Version][9]][8]
 [![Dependency Status][10]][11]
 
-[7]: https://img.shields.io/npm/dm/git-init.svg
-[8]: https://www.npmjs.com/package/git-init
-[9]: https://img.shields.io/npm/v/git-init.svg
+[7]: https://img.shields.io/npm/dm/dev-init.svg
+[8]: https://www.npmjs.com/package/dev-init
+[9]: https://img.shields.io/npm/v/dev-init.svg
 
-[10]: https://david-dm.org/catdad/git-init.svg
-[11]: https://david-dm.org/catdad/git-init
+[10]: https://david-dm.org/catdad/dev-init.svg
+[11]: https://david-dm.org/catdad/dev-init
 
 Initialize your new git repo with Kiril-approved settings.
 
