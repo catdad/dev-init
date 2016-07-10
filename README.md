@@ -16,7 +16,10 @@ Initialize your new git repo with Kiril-approved settings.
 ## Install
 
 ```bash
-npm install -g git-init
+git clone git@github.com:catdad/git-init.git
+cd git-init
+npm install
+npm link
 ```
 
 ## Use
@@ -66,17 +69,6 @@ An empty readme file will be created, to get you started and remind you that wri
 ## I don't like your settings.
 
 That's okay. Not everyone has to make the correct choices. You can still use this project though, to configure and enforce the settings you do prefer. Feel free to clone it and make all the changes you would like to the files in the `fixtures` folder.
-
-You can set it up in your dev environment as such:
-
-```bash
-git clone git@github.com:catdad/git-init.git
-cd git-init
-npm install
-npm link
-```
-
-Now you can make changes and use the `git-init` cli command with your local version.
 
 ## License
 
