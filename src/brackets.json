@@ -1,0 +1,37 @@
+/* jshint node: true */
+/* global __base */
+
+var fs = require('fs');
+var path = require('path');
+
+var async = require('async');
+var _ = require('lodash');
+
+var DEFAULT_LINTER = ['JSHint'];
+
+function render(str, data) {
+    var settings = _.clone(_.templateSettings);
+    _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
+    
+    var rendered = _.template(str)(data);
+    
+    _.templateSettings = settings;
+    
+    return rendered;
+}
+
+module.exports = function bracketsFile(opts, done) {
+    async.waterfall([
+        function readFile(next) {
+            fs.readFile(path.resolve(__base, 'fixtures/brackets.json'), next);
+        },
+        function renderFile(content, next) {
+            next(undefined, render(content, {
+                linter: opts.linter || DEFAULT_LINTER
+            }));
+        },
+        function writeFile(content, next) {
+            fs.writeFile(path.resolve('.', '.brackets.json'), content, next);
+        }
+    ], done);
+};
