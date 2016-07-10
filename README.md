@@ -1,4 +1,4 @@
-# git-init
+# dev-init
 
 [![Downloads][7]][8]
 [![Version][9]][8]
@@ -27,7 +27,7 @@ npm link
 ```bash
 mkdir my-cool-lib
 cd my-cool-lib
-git-init
+dev-init
 ```
 
 ## So what happens?
@@ -49,13 +49,13 @@ A default `.gitattributes` file is used, to standardize file checkouts across ma
 Kiril approves of Brackets. So a config file is created to correctly set up Brackets. There is an option here to select your prefered linter:
 
 ```bash
-git-init --linter ESLint
+dev-init --linter ESLint
 ```
 
 You can define as many linters as you would like to use:
 
 ```bash
-git-init --linter ESLint --linter JSHint --linter JSCS
+dev-init --linter ESLint --linter JSHint --linter JSCS
 ```
 
 ### `.editorconfig`
