@@ -5,6 +5,9 @@
         "javascript": {
             "linting.prefer": ["JSHint"],
             "linting.usePreferredOnly": true
+        },
+        "markdown": {
+            "wordWrap": true
         }
     }
 }
