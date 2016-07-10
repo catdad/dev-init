@@ -43,7 +43,7 @@ A default `.gitattributes` file is used, to standardize file checkouts across ma
 
 ### `.brackets.json`
 
-Kiril approves of Brackets. So a config file is created to correctly set up Brackets. There is an option here to select your prefered linter:
+Kiril approves of [Brackets](https://github.com/adobe/brackets). So a config file is created to correctly set up Brackets. There is an option here to select your prefered linter:
 
 ```bash
 dev-init --linter ESLint
@@ -77,6 +77,7 @@ npm link
 ```
 
 Now you can make changes and use the `dev-init` cli command with your local version.
+
 ## License
 
 [ISC](http://spdx.org/licenses/ISC)
