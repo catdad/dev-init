@@ -6,10 +6,9 @@ var path = require('path');
 var renderFile = require(path.posix.join(__base, 'util', 'renderFile.js'));
 
 module.exports = function bracketsFile(opts, done) {
-    renderFile(
-        path.resolve(__base, 'fixtures/gitattributes'),
-        path.resolve('.', '.gitattributes'),
-        {},
-        done
-    );
+    renderFile({
+        source: path.resolve(__base, 'fixtures/gitattributes'),
+        dest: path.resolve('.', '.gitattributes'),
+        argv: opts
+    }, done);
 };

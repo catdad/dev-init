@@ -6,10 +6,9 @@ var path = require('path');
 var renderFile = require(path.posix.join(__base, 'util', 'renderFile.js'));
 
 module.exports = function bracketsFile(opts, done) {
-    renderFile(
-        path.resolve(__base, 'fixtures/editorconfig'),
-        path.resolve('.', '.editorconfig'),
-        {},
-        done
-    );
+    renderFile({
+        source: path.resolve(__base, 'fixtures/editorconfig'),
+        dest: path.resolve('.', '.editorconfig'),
+        argv: opts
+    }, done);
 };
