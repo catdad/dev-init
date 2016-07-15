@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /* jshint node: true */
 
+var chalk = require('chalk');
+
 var argv = require('yargs')
     .describe('force', 'Force all operations.')
     .alias('force', 'f')
@@ -8,12 +10,17 @@ var argv = require('yargs')
     .alias('help', 'h')
     .argv;
 
+
+
 require('../index.js')(argv, function(err) {
+    // write new line
+    console.log();
+
     if (err) {
         console.error(err);
         process.exitCode = 1;
         return;
     }
 
-    console.log('Done!');
+    console.log(chalk.green('Done!'));
 });

@@ -5,6 +5,7 @@ var path = require('path');
 
 var async = require('async');
 var _ = require('lodash');
+var chalk = require('chalk');
 
 var ENOOVERWRITE = new Error('will not overwrite file');
 ENOOVERWRITE.code = 'ENOOVERWRITE';
@@ -12,11 +13,11 @@ ENOOVERWRITE.code = 'ENOOVERWRITE';
 function render(str, data) {
     var settings = _.clone(_.templateSettings);
     _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-    
+
     var rendered = _.template(str)(data);
-    
+
     _.templateSettings = settings;
-    
+
     return rendered;
 }
 
@@ -36,13 +37,13 @@ module.exports = function renderFile(opts, done) {
     var dest = opts.dest;
     var data = opts.data || {};
     var argv = opts.argv;
-    
+
     async.waterfall([
         function checkExists(next) {
             if (argv.force) {
                 return next();
             }
-            
+
             fileExists(dest, function(exists) {
                 if (exists) {
                     next(ENOOVERWRITE);
@@ -62,10 +63,10 @@ module.exports = function renderFile(opts, done) {
         }
     ], function(err) {
         if (err && err === ENOOVERWRITE) {
-            console.log(err.message, path.basename(dest));
+            console.log(chalk.red(err.message, path.basename(dest)));
             return done();
         }
-        
+
         done(err);
     });
 };
