@@ -10,8 +10,6 @@ var argv = require('yargs')
     .alias('help', 'h')
     .argv;
 
-
-
 require('../index.js')(argv, function(err) {
     // write new line
     console.log();
