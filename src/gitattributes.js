@@ -3,7 +3,7 @@
 
 var path = require('path');
 
-var renderFile = require(path.posix.join(__base, 'util', 'renderFile.js'));
+var renderFile = require(path.posix.join(__base, 'util', 'render-file.js'));
 
 module.exports = function bracketsFile(opts, done) {
     renderFile({

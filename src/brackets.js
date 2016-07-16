@@ -4,7 +4,7 @@
 var path = require('path');
 var _ = require('lodash');
 
-var mergeFile = require(path.posix.join(__base, 'util', 'mergeFile.js'));
+var mergeFile = require(path.posix.join(__base, 'util', 'merge-file.js'));
 
 var DEFAULT_LINTER = ['JSHint'];
 
