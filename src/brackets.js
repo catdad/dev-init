@@ -14,9 +14,20 @@ function customizer(objValue, srcValue) {
     }
 }
 
+function validateStr(str) {
+    if (!str || typeof str !== 'string' || str.trim() === '') {
+        return '{}';
+    }
+
+    return str;
+}
+
 function mergeJson(existing, source) {
     var eData;
     var sData;
+
+    existing = validateStr(existing);
+    source = validateStr(source);
 
     try {
         eData = JSON.parse(existing);

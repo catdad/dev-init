@@ -18,17 +18,18 @@ module.exports = function renderFile(opts, done) {
 
     async.waterfall([
         function readExisting(next) {
+            var bucket = {
+                existing: null
+            };
+
             fs.readFile(dest, 'utf8', function(err, file) {
                 if (err && err.code === 'ENOENT') {
-                    return next();
+                    return next(undefined, bucket);
                 } else if (err) {
                     return next(err);
                 }
 
-                var bucket = {
-                    existing: file
-                };
-
+                bucket.existing = file;
                 next(undefined, bucket);
             });
         },
