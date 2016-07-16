@@ -7,7 +7,7 @@ var async = require('async');
 global.__base = path.resolve(__dirname);
 
 var list = {
-    git: require('./src/init.js'),
+    git: require('./src/git-init.js'),
     npm: require('./src/npm-init.js'),
     brackets: require('./src/brackets.js'),
     editorconfig: require('./src/editorconfig.js'),
