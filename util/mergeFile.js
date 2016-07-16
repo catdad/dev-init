@@ -6,24 +6,15 @@ var path = require('path');
 var async = require('async');
 var _ = require('lodash');
 
-function trim(v) {
-    if (v.trim) {
-        return v.trim();
-    }
-
-    return v;
-}
-
-function unique(arr) {
-    console.log(arr);
-    return _.uniq(arr);
-}
+var render = require('./render-template.js');
 
 module.exports = function renderFile(opts, done) {
     var source = opts.source;
     var dest = opts.dest;
     var data = opts.data || {};
     var argv = opts.argv;
+
+    var mergeFunc = opts.mergeFunction;
 
     async.waterfall([
         function readExisting(next) {
@@ -34,23 +25,30 @@ module.exports = function renderFile(opts, done) {
                     return next(err);
                 }
 
-                next(undefined, file.split('\n').map(trim));
+                var bucket = {
+                    existing: file
+                };
+
+                next(undefined, bucket);
             });
         },
-        function readFile(arr, next) {
+        function readFile(bucket, next) {
             fs.readFile(source, 'utf8', function(err, file) {
                 if (err) {
                     return next(err);
                 }
 
-                next(undefined, arr.concat(file.split('\n').map(trim)));
+                bucket.source = render(file, data);
+
+                next(undefined, bucket);
             });
         },
-        function renderFile(arr, next) {
-            next(undefined, unique(arr).join('\n'));
+        function renderFile(bucket, next) {
+            var result = mergeFunc(bucket.existing, bucket.source) || bucket.existing;
+
+            next(undefined, result);
         },
         function writeFile(content, next) {
-            console.log(content);
             fs.writeFile(dest, content, next);
         }
     ], done);

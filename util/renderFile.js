@@ -4,22 +4,12 @@ var fs = require('fs');
 var path = require('path');
 
 var async = require('async');
-var _ = require('lodash');
 var chalk = require('chalk');
+
+var render = require('./render-template.js');
 
 var ENOOVERWRITE = new Error('will not overwrite file');
 ENOOVERWRITE.code = 'ENOOVERWRITE';
-
-function render(str, data) {
-    var settings = _.clone(_.templateSettings);
-    _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-
-    var rendered = _.template(str)(data);
-
-    _.templateSettings = settings;
-
-    return rendered;
-}
 
 // I'll take my chances with the race condition here
 function fileExists(file, done) {
