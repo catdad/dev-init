@@ -7,7 +7,18 @@ var _ = require('lodash');
 
 var mergeFile = require(path.posix.join(__base, 'util', 'merge-file.js'));
 
+function validateStr(str) {
+    if (!str || typeof str !== 'string' || str.trim() === '') {
+        return '';
+    }
+
+    return str;
+}
+
 function merge(existing, source) {
+    existing = validateStr(existing);
+    source = validateStr(source);
+
     // let these throw, the merge helper will
     // catch errors and handle them correctly
     var eData = ec.parse(existing);
