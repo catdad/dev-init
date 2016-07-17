@@ -48,11 +48,19 @@ module.exports = function renderFile(opts, done) {
             });
         },
         function renderFile(bucket, next) {
-            var result = mergeFunc(bucket.existing, bucket.source) || bucket.existing;
-
-            if (argv.safe && result !== bucket.existing) {
+            if (argv.safe && bucket.existing !== null) {
                 console.log(chalk.yellow('will not modify %s in safe mode'), filename);
                 return next(undefined, bucket.existing);
+            }
+
+            // set to the existing file, in order to avoid overwriting
+            // this file if there is a merge error
+            var result = bucket.existing;
+
+            try {
+                result = mergeFunc(bucket.existing, bucket.source) || bucket.existing;
+            } catch(err) {
+                console.error(chalk.red(filename, 'merge error:'), err);
             }
 
             next(undefined, result);

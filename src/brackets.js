@@ -23,20 +23,13 @@ function validateStr(str) {
 }
 
 function mergeJson(existing, source) {
-    var eData;
-    var sData;
-
     existing = validateStr(existing);
     source = validateStr(source);
 
-    try {
-        eData = JSON.parse(existing);
-        sData = JSON.parse(source);
-    } catch(err) {
-        // avoid overwriting the existing file
-        // if we cannot parse it
-        return existing;
-    }
+    // let these throw, the merge helper will
+    // catch errors and handle them correctly
+    var eData = JSON.parse(existing);
+    var sData = JSON.parse(source);
 
     var merged = _.mergeWith(sData, eData, customizer);
 

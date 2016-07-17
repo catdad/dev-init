@@ -8,17 +8,10 @@ var _ = require('lodash');
 var mergeFile = require(path.posix.join(__base, 'util', 'merge-file.js'));
 
 function merge(existing, source) {
-    var eData;
-    var sData;
-
-    try {
-        eData = ec.parse(existing);
-        sData = ec.parse(source);
-    } catch(err) {
-        // avoid overwriting the existing file,
-        // even though it is wrong
-        return existing;
-    }
+    // let these throw, the merge helper will
+    // catch errors and handle them correctly
+    var eData = ec.parse(existing);
+    var sData = ec.parse(source);
 
     var merged = _.merge(eData, sData);
 
