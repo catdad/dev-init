@@ -15,6 +15,8 @@ function merge(existing, source) {
         eData = ec.parse(existing);
         sData = ec.parse(source);
     } catch(err) {
+        // avoid overwriting the existing file,
+        // even though it is wrong
         return existing;
     }
 

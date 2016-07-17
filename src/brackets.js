@@ -33,7 +33,6 @@ function mergeJson(existing, source) {
         eData = JSON.parse(existing);
         sData = JSON.parse(source);
     } catch(err) {
-        console.log('merge error', err, source);
         // avoid overwriting the existing file
         // if we cannot parse it
         return existing;
