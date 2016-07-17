@@ -5,6 +5,7 @@ var path = require('path');
 
 var async = require('async');
 var _ = require('lodash');
+var chalk = require('chalk');
 
 var render = require('./render-template.js');
 
@@ -13,6 +14,8 @@ module.exports = function renderFile(opts, done) {
     var dest = opts.dest;
     var data = opts.data || {};
     var argv = opts.argv;
+
+    var filename = path.basename(dest);
 
     var mergeFunc = opts.mergeFunction;
 
@@ -46,6 +49,11 @@ module.exports = function renderFile(opts, done) {
         },
         function renderFile(bucket, next) {
             var result = mergeFunc(bucket.existing, bucket.source) || bucket.existing;
+
+            if (argv.safe && result !== bucket.existing) {
+                console.log(chalk.yellow('will not modify %s in safe mode'), filename);
+                return next(undefined, bucket.existing);
+            }
 
             next(undefined, result);
         },
