@@ -6,9 +6,16 @@ var chalk = require('chalk');
 var argv = require('yargs')
     .describe('force', 'Force all operations.')
     .alias('force', 'f')
+    .describe('safe', 'Do not modify existing files in any way.')
     .help('help')
     .alias('help', 'h')
     .argv;
+
+// force and safe are opposites... you can't use both togehter
+if (argv.safe && argv.force) {
+    console.error(chalk.red('cannot use both force and safe'));
+    process.exit(1);
+}
 
 require('../index.js')(argv, function(err) {
     // write new line
@@ -20,5 +27,5 @@ require('../index.js')(argv, function(err) {
         return;
     }
 
-    console.log(chalk.green('Done!'));
+    console.log(chalk.bold.green('Done!'));
 });

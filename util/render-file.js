@@ -53,7 +53,7 @@ module.exports = function renderFile(opts, done) {
         }
     ], function(err) {
         if (err && err === ENOOVERWRITE) {
-            console.log(chalk.red(err.message, path.basename(dest)));
+            console.log(chalk.yellow(err.message, path.basename(dest)));
             return done();
         }
 
