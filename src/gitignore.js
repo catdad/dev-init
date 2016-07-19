@@ -21,12 +21,6 @@ function merge(existing, source) {
     existing = validateStr(existing);
     source = validateStr(source);
 
-    var eData = lines.tokenize(existing);
-
-    console.log(eData);
-
-    throw new Error('do nothing');
-
     return lines.merge(existing, source);
 }
 
