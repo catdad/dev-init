@@ -70,7 +70,7 @@ An empty readme file will be created, to get you started and remind you that wri
 
 ## Whoa, merging files! Is that safe?
 
-I'd like to think it is. I did a great job writing. And, just so you know, if there is a merge error, your existing files will be safe. However, if you don't trust me, there is a flag for that.
+I'd like to think it is. I did a great job writing it. And, just so you know, if there is a merge error, your existing files will be safe. However, if you don't trust me, there is a flag for that.
 
 ```bash
 dev-init --safe
