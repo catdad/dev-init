@@ -3,6 +3,9 @@
 
 var chalk = require('chalk');
 
+var init = require('../index.js');
+var menu = require('./menu.js');
+
 var argv = require('yargs')
     .describe('force', 'Force all operations.')
     .alias('force', 'f')
@@ -17,15 +20,46 @@ if (argv.safe && argv.force) {
     process.exit(1);
 }
 
-require('../index.js')(argv, function(err) {
-    // write new line
-    console.log();
+if (argv._ && argv._[0] === 'select') {
+    menu(init.taskNames, function(err, tasks) {
+        if (err && err === 'cancel') {
+            process.exitCode = 0;
+            return;
+        }
 
-    if (err) {
-        console.error(err);
-        process.exitCode = 1;
-        return;
+        if (err) {
+            return handleError(err);
+        }
+
+        if (tasks.length) {
+            runInit(tasks);
+        } else {
+            runInit();
+        }
+    });
+} else {
+    runInit();
+}
+
+function handleError(err) {
+    console.error(err);
+    process.exitCode = 1;
+}
+
+function runInit(tasks) {
+    if (Array.isArray(tasks)) {
+        argv.tasks = tasks;
     }
 
-    console.log(chalk.bold.green('Done!'));
-});
+    init(argv, function(err) {
+        // write new line
+        console.log();
+
+        if (err) {
+            return handleError(err);
+        }
+
+        console.log(chalk.bold.green('Done!'));
+    });
+}
+

@@ -32,3 +32,5 @@ module.exports = function index(opts, done) {
 
     async.series(tasks, done);
 };
+
+module.exports.taskNames = Object.keys(list);
