@@ -7,20 +7,10 @@ var async = require('async');
 var chalk = require('chalk');
 
 var render = require('./render-template.js');
+var fileExists = require('./fs-exists.js');
 
 var ENOOVERWRITE = new Error('will not overwrite file');
 ENOOVERWRITE.code = 'ENOOVERWRITE';
-
-// I'll take my chances with the race condition here
-function fileExists(file, done) {
-    fs.stat(file, function(err) {
-        if (err && err.code === 'ENOENT') {
-            return done(false);
-        } else {
-            return done(true);
-        }
-    });
-}
 
 module.exports = function renderFile(opts, done) {
     var source = opts.source;

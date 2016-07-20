@@ -1,7 +1,6 @@
 /* jshint node: true */
 
 var path = require('path');
-
 var async = require('async');
 
 global.__base = path.resolve(__dirname);
