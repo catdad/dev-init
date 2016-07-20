@@ -33,7 +33,7 @@ function mergeJson(existing, source) {
 
     var merged = _.mergeWith(sData, eData, customizer);
 
-    return JSON.stringify(merged, undefined, 4);
+    return JSON.stringify(merged, undefined, 4) + '\n';
 }
 
 module.exports = function bracketsFile(opts, done) {

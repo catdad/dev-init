@@ -57,6 +57,11 @@ module.exports = function renderFile(opts, done) {
             // this file if there is a merge error
             var result = bucket.existing;
 
+            if (bucket.existing === bucket.source) {
+                // files are the same, no need to merge
+                return next(undefined, result);
+            }
+
             try {
                 result = mergeFunc(bucket.existing, bucket.source) || bucket.existing;
             } catch(err) {
