@@ -36,12 +36,26 @@ function mergeJson(existing, source) {
     return JSON.stringify(merged, undefined, 4) + '\n';
 }
 
+function getLinter(opts) {
+    var linter = opts.linter;
+
+    if (!linter) {
+        linter = DEFAULT_LINTER;
+    }
+
+    if (!Array.isArray(linter)) {
+        linter = [linter];
+    }
+
+    return JSON.stringify(linter);
+}
+
 module.exports = function bracketsFile(opts, done) {
     mergeFile({
         source: path.resolve(__base, 'fixtures/brackets.json'),
         dest: path.resolve('.', '.brackets.json'),
         data: {
-            linter: JSON.stringify(opts.linter || DEFAULT_LINTER)
+            linter: getLinter(opts)
         },
         argv: opts,
         mergeFunction: mergeJson
