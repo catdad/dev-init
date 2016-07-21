@@ -2,6 +2,10 @@
 
 var _ = require('lodash');
 var Menu = require('terminal-menu');
+
+var DONE = 'Done';
+var CANCEL = 'Cancel';
+
 var menu = Menu({
     width: 29,
     x: 4,
@@ -9,9 +13,6 @@ var menu = Menu({
     fg: 'black',
     bg: 'white'
 });
-
-var DONE = 'Done';
-var CANCEL = 'Cancel';
 
 function drawMenu(tasknames, done) {
     var cancelled = false;
@@ -21,15 +22,9 @@ function drawMenu(tasknames, done) {
         return obj;
     }, {});
 
-
     function menuCancelled() {
         return done('cancel');
     }
-
-    menu.reset();
-
-    menu.write('Select tasks to run\n');
-    menu.write('-------------------------\n');
 
     function setLabel(selected, value) {
         var pre = selected ? 'x ' : '  ';
@@ -47,6 +42,11 @@ function drawMenu(tasknames, done) {
             menu._drawRow(idx);
         }
     }
+
+    menu.reset();
+
+    menu.write('Select tasks to run\n');
+    menu.write('-------------------------\n');
 
     _.forEach(tasks, function(selected, value) {
         var pre = selected ? 'x ' : '  ';
@@ -93,6 +93,7 @@ function drawMenu(tasknames, done) {
         if (cancelled) {
             return menuCancelled();
         }
+
         var selected = _.reduce(tasks, function(arr, selected, key) {
             if (selected) {
                 arr.push(key);
