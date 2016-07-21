@@ -6,8 +6,8 @@ var menu = Menu({
     width: 29,
     x: 4,
     y: 2,
-//    fg: 0,
-//    bg: 'black'
+    fg: 'black',
+    bg: 'white'
 });
 
 var DONE = 'Done';
