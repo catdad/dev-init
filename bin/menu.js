@@ -70,9 +70,14 @@ function drawMenu(tasknames, done) {
     process.stdin.setRawMode(true);
 
     menu.on('close', function () {
+        // reset raw mode and pause input, so that we can use
+        // the input later if needed, and node can exit when
+        // all of the work is done
         process.stdin.setRawMode(false);
         process.stdin.pause();
 
+        // clears all of the screen stuffs
+        process.stdout.write('\033c');
 
         if (cancelled) {
             done('cancel');
@@ -85,9 +90,6 @@ function drawMenu(tasknames, done) {
 
             return arr;
         }, []);
-
-        // clears all of the screen stuffs
-        process.stdout.write('\033c');
 
         done(undefined, selected);
     });
