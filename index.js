@@ -2,10 +2,11 @@
 
 var path = require('path');
 var async = require('async');
+var _ = require('lodash');
 
 global.__base = path.resolve(__dirname);
 
-var list = {
+var LIST = {
     git: require('./src/git-init.js'),
     npm: require('./src/npm-init.js'),
     brackets: require('./src/brackets.js'),
@@ -15,22 +16,36 @@ var list = {
     readme: require('./src/readme.js'),
 };
 
+var orderedNames = [
+    'git',
+    'brackets',
+    'editorconfig',
+    'gitignore',
+    'gitattributes',
+    'readme'
+];
+
 module.exports = function index(opts, done) {
+    var tasksNames;
+
+    if (opts.tasks && Array.isArray(opts.tasks)) {
+        // find the tasks that are included in the array
+        tasksNames = orderedNames.filter(function(name) {
+            return _.includes(opts.tasks, name);
+        });
+    } else {
+        // run all of them
+        tasksNames = orderedNames;
+    }
+
     // keep the list in order
-    var tasks = [
-        list.git,
-        list.brackets,
-        list.editorconfig,
-        list.gitignore,
-        list.gitattributes,
-        list.readme
-    ].map(function(mod) {
+    var tasks = tasksNames.map(function(name) {
         return function callModule(next) {
-            return mod(opts, next);
+            return LIST[name](opts, next);
         };
     });
 
     async.series(tasks, done);
 };
 
-module.exports.taskNames = Object.keys(list);
+module.exports.taskNames = orderedNames;
