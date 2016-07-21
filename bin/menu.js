@@ -2,7 +2,13 @@
 
 var _ = require('lodash');
 var Menu = require('terminal-menu');
-var menu = Menu({ width: 29, x: 4, y: 2 });
+var menu = Menu({
+    width: 29,
+    x: 4,
+    y: 2,
+//    fg: 0,
+//    bg: 'black'
+});
 
 var DONE = 'Done';
 var CANCEL = 'Cancel';
@@ -14,6 +20,11 @@ function drawMenu(tasknames, done) {
         obj[name] = false;
         return obj;
     }, {});
+
+
+    function menuCancelled() {
+        return done('cancel');
+    }
 
     menu.reset();
 
@@ -80,8 +91,7 @@ function drawMenu(tasknames, done) {
         process.stdout.write('\033c');
 
         if (cancelled) {
-            done('cancel');
-            return;
+            return menuCancelled();
         }
         var selected = _.reduce(tasks, function(arr, selected, key) {
             if (selected) {
@@ -90,6 +100,10 @@ function drawMenu(tasknames, done) {
 
             return arr;
         }, []);
+
+        if (!selected.length) {
+            return menuCancelled();
+        }
 
         done(undefined, selected);
     });
