@@ -56,26 +56,13 @@ function drawMenu(tasknames, done) {
     menu.add(DONE);
     menu.add(CANCEL);
 
-    function closeMenu() {
-
-        menu.charm.cursor(true);
-        menu.charm.display('reset');
-        menu.charm.position(1, 1);
-        menu.reset();
-
-        // because Windows is stupid
-        setTimeout(function() {
-            menu.close();
-        }, 10);
-    }
-
     menu.on('select', function (label) {
         if (label === CANCEL) {
             cancelled = true;
             menu.reset();
-            return closeMenu();
+            return menu.close();
         } else if (label === DONE) {
-            return closeMenu();
+            return menu.close();
         }
     });
 
@@ -98,6 +85,9 @@ function drawMenu(tasknames, done) {
 
             return arr;
         }, []);
+
+        // clears all of the screen stuffs
+        process.stdout.write('\033c');
 
         done(undefined, selected);
     });
