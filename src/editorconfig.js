@@ -7,6 +7,8 @@ var _ = require('lodash');
 
 var mergeFile = require(path.posix.join(__base, 'util', 'merge-file.js'));
 
+var DEFAULT_SPACES = 4;
+
 function validateStr(str) {
     if (!str || typeof str !== 'string' || str.trim() === '') {
         return '';
@@ -29,10 +31,19 @@ function merge(existing, source) {
     return ec.serialize(merged);
 }
 
+function getSpaces(opts) {
+    return (opts.spaces == +opts.spaces) ?
+        opts.spaces :
+        DEFAULT_SPACES;
+}
+
 module.exports = function bracketsFile(opts, done) {
     mergeFile({
         source: path.resolve(__base, 'fixtures/editorconfig'),
         dest: path.resolve('.', '.editorconfig'),
+        data: {
+            spaces: getSpaces(opts)
+        },
         argv: opts,
         mergeFunction: merge
     }, done);

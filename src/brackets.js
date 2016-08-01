@@ -7,6 +7,7 @@ var _ = require('lodash');
 var mergeFile = require(path.posix.join(__base, 'util', 'merge-file.js'));
 
 var DEFAULT_LINTER = ['JSHint'];
+var DEFAULT_SPACES = 4;
 
 function customizer(objValue, srcValue) {
     if (_.isArray(objValue)) {
@@ -50,12 +51,20 @@ function getLinter(opts) {
     return JSON.stringify(linter);
 }
 
+function getSpaces(opts) {
+    return (opts.spaces == +opts.spaces) ?
+        opts.spaces :
+        DEFAULT_SPACES;
+}
+
 module.exports = function bracketsFile(opts, done) {
+    console.log(opts);
     mergeFile({
         source: path.resolve(__base, 'fixtures/brackets.json'),
         dest: path.resolve('.', '.brackets.json'),
         data: {
-            linter: getLinter(opts)
+            linter: getLinter(opts),
+            spaces: getSpaces(opts)
         },
         argv: opts,
         mergeFunction: mergeJson
