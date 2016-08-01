@@ -64,9 +64,21 @@ You can define as many linters as you would like to use:
 dev-init --linter ESLint --linter JSHint --linter JSCS
 ```
 
+You can also configure the number of spaces to use for indentation, although I strongly encourage you to stick to 4.
+
+```bash
+dev-init --spaces 2
+```
+
 ### `.editorconfig`
 
 Kiril also approves of other IDEs. An [`.editorconfig`](http://editorconfig.org/) file will be created to configure a whole plethora of other IDEs. If your favorite IDE does not support it natively, there is probably a plugin for it. If you already have this file, the settings will be merged into your existing file.
+
+Like with `.brackets.json`, spaces are configurable.
+
+```bash
+dev-init --spaces 2
+```
 
 ### `README.md`
 
