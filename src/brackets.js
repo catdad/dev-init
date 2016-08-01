@@ -58,7 +58,6 @@ function getSpaces(opts) {
 }
 
 module.exports = function bracketsFile(opts, done) {
-    console.log(opts);
     mergeFile({
         source: path.resolve(__base, 'fixtures/brackets.json'),
         dest: path.resolve('.', '.brackets.json'),
