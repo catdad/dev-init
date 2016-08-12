@@ -2,6 +2,7 @@
 /* global __base */
 
 var path = require('path');
+
 var ec = require('editorconfig-parser');
 var _ = require('lodash');
 

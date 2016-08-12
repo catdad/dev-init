@@ -2,6 +2,7 @@
 /* global __base */
 
 var path = require('path');
+
 var _ = require('lodash');
 
 var mergeFile = require(path.posix.join(__base, 'util', 'merge-file.js'));
