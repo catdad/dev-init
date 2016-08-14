@@ -1,6 +1,7 @@
 /* jshint node: true */
 
 var path = require('path');
+
 var async = require('async');
 var _ = require('lodash');
 
