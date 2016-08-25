@@ -2,6 +2,7 @@
 /* jshint node: true */
 
 var chalk = require('chalk');
+var _ = require('lodash');
 
 var init = require('../index.js');
 var menu = require('./menu.js');
@@ -9,6 +10,12 @@ var menu = require('./menu.js');
 var argv = require('yargs')
     .describe('force', 'Force all operations.')
     .alias('force', 'f')
+    .alias('include', 'i')
+    .array('include')
+    .default('include', [], 'all tasks')
+    .alias('exclude', 'e')
+    .array('exclude')
+    .default('exclude', [], 'empty list')
     .describe('safe', 'Do not modify existing files in any way.')
     .help('help')
     .alias('help', 'h')
@@ -38,7 +45,17 @@ if (argv._ && argv._[0] === 'select') {
         }
     });
 } else {
-    runInit();
+    var tasks = init.taskNames;
+
+    if (argv.include.length) {
+        tasks = _.intersection(tasks, argv.include);
+    }
+
+    if (argv.exclude.length) {
+        tasks = _.pullAll(tasks, argv.exclude);
+    }
+
+    runInit(tasks);
 }
 
 function handleError(err) {
