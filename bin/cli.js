@@ -20,6 +20,8 @@ var argv = yargs
     .default('exclude', [], 'empty list')
     .help('help')
     .alias('help', 'h')
+    .alias('version', 'v')
+    .version()
     .argv;
 
 // force and safe are opposites... you can't use both togehter
