@@ -7,7 +7,8 @@ var _ = require('lodash');
 var init = require('../index.js');
 var menu = require('./menu.js');
 
-var argv = require('yargs')
+var yargs = require('yargs');
+var argv = yargs
     .describe('force', 'Force all operations.')
     .alias('force', 'f')
     .describe('safe', 'Do not modify existing files in any way.')
@@ -27,7 +28,9 @@ if (argv.safe && argv.force) {
     process.exit(1);
 }
 
-if (argv._ && argv._[0] === 'select') {
+var command = (argv._ && argv._[0]) || undefined;
+
+if (command === 'select') {
     menu(init.taskNames, function(err, tasks) {
         if (err && err === 'cancel') {
             process.exitCode = 0;
@@ -44,6 +47,9 @@ if (argv._ && argv._[0] === 'select') {
             runInit();
         }
     });
+} else if (command === 'list' || command === 'ls') {
+    console.log('\n%s\n', init.taskNames.join('\n'));
+    yargs.showHelp('log');
 } else {
     var tasks = init.taskNames;
 
