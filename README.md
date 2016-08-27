@@ -124,6 +124,20 @@ You can also combine these, but they apply on top of one another (i.e. the exclu
 
   You can use the `select` command to enter an interactrive menu, where you can visually select the tasks to run.
 
+## But what are the command names?
+
+That's easy too:
+
+```bash
+dev-init list
+```
+
+And if that is too much typing:
+
+```bash
+dev-init ls
+```
+
 ## I don't like your settings.
 
 That's not really a question, but it is also okay. Not everyone has to make the correct choices. You can still use this project though, to configure and enforce the settings you do prefer. Feel free to clone it and make all the changes you would like to the files in the `fixtures` folder.
