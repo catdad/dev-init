@@ -30,50 +30,12 @@ if (argv.safe && argv.force) {
     process.exit(1);
 }
 
-var command = (argv._ && argv._[0]) || undefined;
-
-if (command === 'select') {
-    menu(init.taskNames, function(err, tasks) {
-        if (err && err === 'cancel') {
-            process.exitCode = 0;
-            return;
-        }
-
-        if (err) {
-            return handleError(err);
-        }
-
-        if (tasks.length) {
-            runInit(tasks);
-        } else {
-            runInit();
-        }
-    });
-} else if (command === 'list' || command === 'ls') {
-    console.log('Task names:\n\n%s\n', init.taskNames.map(function (v) {
-        return '  ' + v;
-    }).join('\n'));
-    yargs.showHelp('log');
-} else {
-    var tasks = init.taskNames;
-
-    if (argv.include.length) {
-        tasks = _.intersection(tasks, argv.include);
-    }
-
-    if (argv.exclude.length) {
-        tasks = _.pullAll(tasks, argv.exclude);
-    }
-
-    runInit(tasks);
-}
-
 function handleError(err) {
     console.error(err);
     process.exitCode = 1;
 }
 
-function runInit(tasks) {
+function runTasks(tasks) {
     if (Array.isArray(tasks)) {
         argv.tasks = tasks;
     }
@@ -90,3 +52,52 @@ function runInit(tasks) {
     });
 }
 
+function routeCommand(command) {
+    switch (command) {
+        case 'select':
+            menu(init.taskNames, function(err, tasks) {
+                if (err && err === 'cancel') {
+                    process.exitCode = 0;
+                    return;
+                }
+
+                if (err) {
+                    return handleError(err);
+                }
+
+                if (tasks.length) {
+                    runTasks(tasks);
+                } else {
+                    runTasks();
+                }
+            });
+
+            return;
+        case 'list':
+        case 'ls':
+            console.log('Task names:\n\n%s\n', init.taskNames.map(function (v) {
+                return '  ' + v;
+            }).join('\n'));
+
+            // let's show the help, just for fun
+            yargs.showHelp('log');
+
+            return;
+    }
+
+    // the default is to run all the things... taking into account
+    // include and exclude flags
+    var tasks = init.taskNames;
+
+    if (argv.include.length) {
+        tasks = _.intersection(tasks, argv.include);
+    }
+
+    if (argv.exclude.length) {
+        tasks = _.pullAll(tasks, argv.exclude);
+    }
+
+    runTasks(tasks);
+}
+
+routeCommand((argv._ && argv._[0]) || undefined);
