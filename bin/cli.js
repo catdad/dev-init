@@ -50,7 +50,9 @@ if (command === 'select') {
         }
     });
 } else if (command === 'list' || command === 'ls') {
-    console.log('\n%s\n', init.taskNames.join('\n'));
+    console.log('Task names:\n\n%s\n', init.taskNames.map(function (v) {
+        return '  ' + v;
+    }).join('\n'));
     yargs.showHelp('log');
 } else {
     var tasks = init.taskNames;
