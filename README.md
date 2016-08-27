@@ -124,7 +124,7 @@ You can also combine these, but they apply on top of one another (i.e. the exclu
 
   You can use the `select` command to enter an interactrive menu, where you can visually select the tasks to run.
 
-## But what are the command names?
+## But what are the task names?
 
 That's easy too:
 
