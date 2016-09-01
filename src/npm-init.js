@@ -17,7 +17,7 @@ module.exports = function gitInit(opts, done) {
 
     var npm = /^win[0-9]/.test(process.platform) ? 'npm.cmd' : 'npm';
 
-    var child = require('child_process').spawn('npm.cmd', ['init'], {
+    var child = require('child_process').spawn(npm, ['init', '--yes'], {
         cwd: process.cwd(),
         stdio: 'inherit'
     });
