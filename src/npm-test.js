@@ -53,6 +53,11 @@ module.exports = function gitInit(opts, done) {
 
                 cb(null, JSON.stringify(jsonData, null, 2));
             })).pipe(es.wait(function (err, body) {
+                if (err) {
+                    // this error is real, so we should use it
+                    return next(err);
+                }
+
                 // We can't just stream the data into an fs.createWriteStream :(
                 fs.writeFile(pkgPath, body, next);
             }));
