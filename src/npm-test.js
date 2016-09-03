@@ -30,7 +30,8 @@ module.exports = function gitInit(opts, done) {
 
             fs.createReadStream(pkgPath).pipe(es.wait(function (err, body) {
                 if (err) {
-                    return next(err);
+                    // we will actually ignore the error
+                    return next();
                 }
             })).pipe(es.map(function (data, cb) {
                 var jsonData;
