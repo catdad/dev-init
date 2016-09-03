@@ -14,7 +14,7 @@ var LIST = {
     editorconfig: require('./src/editorconfig.js'),
     gitignore: require('./src/gitignore.js'),
     gitattributes: require('./src/gitattributes.js'),
-    readme: require('./src/readme.js'),
+    readme: require('./src/readme.js')
 };
 
 var orderedNames = [
@@ -26,6 +26,10 @@ var orderedNames = [
     'readme'
 ];
 
+var additionalNames = [
+    'npm'
+];
+
 module.exports = function index(opts, done) {
     var tasksNames;
 
@@ -33,7 +37,9 @@ module.exports = function index(opts, done) {
         // find the tasks that are included in the array
         tasksNames = orderedNames.filter(function(name) {
             return _.includes(opts.tasks, name);
-        });
+        }).concat(additionalNames.filter(function(name) {
+            return _.includes(opts.tasks, name);
+        }));
     } else {
         // run all of them
         tasksNames = orderedNames;
@@ -50,3 +56,4 @@ module.exports = function index(opts, done) {
 };
 
 module.exports.taskNames = orderedNames;
+module.exports.additionalNames = additionalNames;

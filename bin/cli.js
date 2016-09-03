@@ -18,6 +18,7 @@ var argv = yargs
     .alias('exclude', 'e')
     .array('exclude')
     .default('exclude', [], 'empty list')
+    .alias('all', 'a')
     .help('help')
     .alias('help', 'h')
     .alias('version', 'v')
@@ -53,9 +54,13 @@ function runTasks(tasks) {
 }
 
 function routeCommand(command) {
+    // the default is to run all the things... taking into account
+    // include and exclude flags
+    var TASKS = init.taskNames.concat( argv.all ? init.additionalNames : [] );
+
     switch (command) {
         case 'select':
-            menu(init.taskNames, function(err, tasks) {
+            menu(TASKS, function(err, tasks) {
                 if (err && err === 'cancel') {
                     process.exitCode = 0;
                     return;
@@ -75,7 +80,7 @@ function routeCommand(command) {
             return;
         case 'list':
         case 'ls':
-            console.log('Task names:\n\n%s\n', init.taskNames.map(function (v) {
+            console.log('Task names:\n\n%s\n', TASKS.map(function (v) {
                 return '  ' + v;
             }).join('\n'));
 
@@ -85,9 +90,7 @@ function routeCommand(command) {
             return;
     }
 
-    // the default is to run all the things... taking into account
-    // include and exclude flags
-    var tasks = init.taskNames;
+    var tasks = [].concat(TASKS);
 
     if (argv.include.length) {
         tasks = _.intersection(tasks, argv.include);
