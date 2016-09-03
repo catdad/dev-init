@@ -9,12 +9,14 @@ global.__base = path.resolve(__dirname);
 
 var LIST = {
     git: require('./src/git-init.js'),
-    npm: require('./src/npm-init.js'),
     brackets: require('./src/brackets.js'),
     editorconfig: require('./src/editorconfig.js'),
     gitignore: require('./src/gitignore.js'),
     gitattributes: require('./src/gitattributes.js'),
-    readme: require('./src/readme.js')
+    readme: require('./src/readme.js'),
+
+    npm: require('./src/npm-init.js'),
+    'npm-test': require('./src/npm-test.js')
 };
 
 var orderedNames = [
@@ -27,7 +29,8 @@ var orderedNames = [
 ];
 
 var additionalNames = [
-    'npm'
+    'npm',
+    'npm-test'
 ];
 
 module.exports = function index(opts, done) {
