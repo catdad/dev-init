@@ -49,7 +49,7 @@ function runTasks(tasks) {
             return handleError(err);
         }
 
-        console.log(chalk.bold.green('Done!'));
+        console.log(chalk.green('Done!'));
     });
 }
 
