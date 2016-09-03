@@ -22,8 +22,6 @@ module.exports = function gitInit(opts, done) {
             }, function(err, stdout, stderr) {
                 next(err);
             });
-
-            next();
         },
         function addPackageScripts(next) {
             var pkgPath = path.resolve(process.cwd(), 'package.json');
@@ -61,10 +59,12 @@ module.exports = function gitInit(opts, done) {
                 // We can't just stream the data into an fs.createWriteStream :(
                 fs.writeFile(pkgPath, body, next);
             }));
+        },
+        function makeTestFolder(next) {
+            mkdirp(path.resolve(process.cwd(), 'test'), next);
         }
     ], done);
 
     // TODO:
     // - do not install already available modules
-    // - make 'test' folder
 };
