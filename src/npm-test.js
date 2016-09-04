@@ -10,12 +10,36 @@ var mkdirp = require('mkdirp');
 var es = require('event-stream');
 var _ = require('lodash');
 
+var MODULES = ['mocha', 'chai', 'istanbul'];
+
 module.exports = function gitInit(opts, done) {
+    var modules = [].concat(MODULES);
+    var pkgPath = path.resolve(process.cwd(), 'package.json');
 
     async.series([
+        function checkExistingModules(next) {
+            fs.createReadStream(pkgPath).pipe(es.wait(function (err, body) {
+                var pkg;
+
+                try {
+                    pkg = JSON.parse(body.toString());
+                } catch (e) {
+                    return next(e);
+                }
+
+                var devDependencies = _.keys(pkg.devDependencies || {});
+                modules = _.difference(modules, devDependencies);
+
+                next();
+            }));
+        },
         function installStuff(next) {
+            if (!modules.length) {
+                return next();
+            }
+
             shellton({
-                task: 'npm i -D mocha chai istanbul',
+                task: 'npm i -D ' + modules.join(' '),
                 cwd: process.cwd(),
                 stdout: process.stdout,
                 stderr: process.stderr
@@ -24,8 +48,6 @@ module.exports = function gitInit(opts, done) {
             });
         },
         function addPackageScripts(next) {
-            var pkgPath = path.resolve(process.cwd(), 'package.json');
-
             fs.createReadStream(pkgPath).pipe(es.wait(function (err, body) {
                 if (err) {
                     // we will actually ignore the error
@@ -47,8 +69,6 @@ module.exports = function gitInit(opts, done) {
                     coverage: 'istanbul cover --dir coverage node_modules/mocha/bin/_mocha'
                 }, scripts);
 
-                console.log(jsonData);
-
                 cb(null, JSON.stringify(jsonData, null, 2));
             })).pipe(es.wait(function (err, body) {
                 if (err) {
@@ -64,7 +84,4 @@ module.exports = function gitInit(opts, done) {
             mkdirp(path.resolve(process.cwd(), 'test'), next);
         }
     ], done);
-
-    // TODO:
-    // - do not install already available modules
 };
