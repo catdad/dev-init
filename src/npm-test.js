@@ -62,12 +62,16 @@ module.exports = function gitInit(opts, done) {
                     return cb(e);
                 }
 
-                var scripts = jsonData.scripts || {};
+                var testScript = _.get(jsonData, 'scripts.test', null);
+
+                if (testScript && /echo .* \&\& exit 1/.test(testScript)) {
+                    delete jsonData.scripts.test;
+                }
 
                 jsonData.scripts = _.merge({
                     test: 'mocha',
                     coverage: 'istanbul cover --dir coverage node_modules/mocha/bin/_mocha'
-                }, scripts);
+                }, jsonData.scripts || {});
 
                 cb(null, JSON.stringify(jsonData, null, 2));
             })).pipe(es.wait(function (err, body) {
