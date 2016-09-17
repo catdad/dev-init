@@ -116,7 +116,7 @@ module.exports = function index(opts, done) {
                 var end = hitime();
 
                 gutil.log(
-                    '\'%s\' ended in %sms',
+                    '\'%s\' ended in ' + gutil.colors.magenta('%sms'),
                     gutil.colors.cyan(name),
                     (end - start).toFixed(2)
                 );
