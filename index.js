@@ -8,15 +8,38 @@ var _ = require('lodash');
 global.__base = path.resolve(__dirname);
 
 var LIST = {
-    git: require('./src/git-init.js'),
-    brackets: require('./src/brackets.js'),
-    editorconfig: require('./src/editorconfig.js'),
-    gitignore: require('./src/gitignore.js'),
-    gitattributes: require('./src/gitattributes.js'),
-    readme: require('./src/readme.js'),
+    git: {
+        task: require('./src/git-init.js')
+    },
+    brackets: {
+        task: require('./src/brackets.js'),
+        optionalDependencies: ['git']
+    },
+    editorconfig: {
+        task: require('./src/editorconfig.js'),
+        optionalDependencies: ['git']
+    },
+    gitignore: {
+        task: require('./src/gitignore.js'),
+        optionalDependencies: ['git']
+    },
+    gitattributes: {
+        task: require('./src/gitattributes.js'),
+        optionalDependencies: ['git']
+    },
+    readme: {
+        task: require('./src/readme.js'),
+        optionalDependencies: ['git']
+    },
 
-    npm: require('./src/npm-init.js'),
-    'npm-test': require('./src/npm-test.js')
+    npm: {
+        task: require('./src/npm-init.js'),
+        optionalDependencies: ['git']
+    },
+    'npm-test': {
+        task: require('./src/npm-test.js'),
+        dependencies: ['npm']
+    }
 };
 
 var orderedNames = [
@@ -48,14 +71,51 @@ module.exports = function index(opts, done) {
         tasksNames = orderedNames;
     }
 
-    // keep the list in order
-    var tasks = tasksNames.map(function(name) {
-        return function callModule(next) {
-            return LIST[name](opts, next);
-        };
-    });
+    // add dependencies of any of the selected tasks to
+    // the list of tasks to run
+    tasksNames = tasksNames.concat(tasksNames.reduce(function (memo, name) {
+        if (LIST[name].dependencies) {
+            return memo.concat(LIST[name].dependencies);
+        }
 
-    async.series(tasks, done);
+        return memo;
+    }, []));
+
+    // resolve the list of tasks to run and their
+    // dependencies
+    var tasks = tasksNames.reduce(function(memo, name) {
+        var def = LIST[name];
+
+        var dependencies = [];
+
+        if (def.dependencies) {
+            dependencies = dependencies.concat(def.dependencies);
+        }
+
+        if (def.optionalDependencies) {
+            dependencies = dependencies.concat(
+                _.intersection(def.optionalDependencies, tasksNames)
+            );
+        }
+
+        dependencies.push(function () {
+            var args = [].slice.call(arguments);
+            var next = args.pop();
+
+            console.log('%s start', name);
+
+            def.task(opts, function (err) {
+                console.log('%s end', name);
+                next(err);
+            });
+        });
+
+        memo[name] = dependencies;
+
+        return memo;
+    }, {});
+
+    async.auto(tasks, done);
 };
 
 module.exports.taskNames = orderedNames;
