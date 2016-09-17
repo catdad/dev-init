@@ -106,7 +106,10 @@ module.exports = function index(opts, done) {
 
             var start = hitime();
 
-            gutil.log('\'%s\' starting...', gutil.colors.cyan(name));
+            gutil.log(
+                '\'%s\' starting...',
+                gutil.colors.cyan(name)
+            );
 
             def.task(opts, function (err) {
 
