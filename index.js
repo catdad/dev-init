@@ -92,8 +92,9 @@ module.exports = function index(opts, done) {
         dependencies.push(function () {
             var args = [].slice.call(arguments);
             var next = args.pop();
+            var timer = new hitime.Timer();
 
-            var start = hitime();
+            timer.start(name);
 
             gutil.log(
                 '\'%s\' starting...',
@@ -101,13 +102,12 @@ module.exports = function index(opts, done) {
             );
 
             def.task(opts, function (err) {
-
-                var end = hitime();
+                timer.end(name);
 
                 gutil.log(
                     '\'%s\' ended in ' + gutil.colors.magenta('%sms'),
                     gutil.colors.cyan(name),
-                    (end - start).toFixed(2)
+                    (timer.duration(name) || 0).toFixed(2)
                 );
 
                 next(err);
