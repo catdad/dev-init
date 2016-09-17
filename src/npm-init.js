@@ -8,7 +8,7 @@ var child = require('child_process');
 function spawn(cmd, args, callback) {
     var child = require('child_process').spawn(cmd, args, {
         cwd: process.cwd(),
-        stdio: 'inherit'
+        stdio: ['ignore', 'ignore', 'inherit']
     });
 
     child.on('exit', function(code) {
