@@ -44,7 +44,7 @@ var LIST = {
     }
 };
 
-var additionalNames = [
+var experimental = [
     'npm',
     'npm-test'
 ];
@@ -122,5 +122,19 @@ module.exports = function index(opts, done) {
     async.auto(tasks, done);
 };
 
-module.exports.taskNames = _.difference(_.keys(LIST), additionalNames);
-module.exports.additionalNames = additionalNames;
+Object.defineProperties(module.exports, {
+    taskNames: {
+        configurable: false,
+        enumerable: true,
+        get: function () {
+            return _.difference(_.keys(LIST), experimental);
+        }
+    },
+    additionalNames: {
+        configurable: false,
+        enumerable: true,
+        get: function () {
+            return [].concat(experimental);
+        }
+    }
+});
