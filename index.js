@@ -44,15 +44,6 @@ var LIST = {
     }
 };
 
-var orderedNames = [
-    'git',
-    'brackets',
-    'editorconfig',
-    'gitignore',
-    'gitattributes',
-    'readme'
-];
-
 var additionalNames = [
     'npm',
     'npm-test'
@@ -63,14 +54,12 @@ module.exports = function index(opts, done) {
 
     if (opts.tasks && Array.isArray(opts.tasks)) {
         // find the tasks that are included in the array
-        tasksNames = orderedNames.filter(function(name) {
+        tasksNames = _.keys(LIST).filter(function(name) {
             return _.includes(opts.tasks, name);
-        }).concat(additionalNames.filter(function(name) {
-            return _.includes(opts.tasks, name);
-        }));
+        });
     } else {
         // run all of them
-        tasksNames = orderedNames;
+        tasksNames = module.exports.taskNames;
     }
 
     // add dependencies of any of the selected tasks to
@@ -133,5 +122,5 @@ module.exports = function index(opts, done) {
     async.auto(tasks, done);
 };
 
-module.exports.taskNames = orderedNames;
+module.exports.taskNames = _.difference(_.keys(LIST), additionalNames);
 module.exports.additionalNames = additionalNames;
