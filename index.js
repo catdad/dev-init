@@ -4,6 +4,8 @@ var path = require('path');
 
 var async = require('async');
 var _ = require('lodash');
+var gutil = require('gulp-util');
+var hitime = require('hitime');
 
 global.__base = path.resolve(__dirname);
 
@@ -102,10 +104,20 @@ module.exports = function index(opts, done) {
             var args = [].slice.call(arguments);
             var next = args.pop();
 
-            console.log('%s start', name);
+            var start = hitime();
+
+            gutil.log('\'%s\' starting...', gutil.colors.cyan(name));
 
             def.task(opts, function (err) {
-                console.log('%s end', name);
+
+                var end = hitime();
+
+                gutil.log(
+                    '\'%s\' ended in %sms',
+                    gutil.colors.cyan(name),
+                    (end - start).toFixed(2)
+                );
+
                 next(err);
             });
         });
