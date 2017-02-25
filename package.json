@@ -22,7 +22,7 @@
     "lodash": "^4.13.1",
     "mkdirp": "^0.5.1",
     "node-stream": "0.0.6",
-    "shellton": "^2.0.0",
+    "shellton": "^3.0.2",
     "terminal-menu": "^2.1.1",
     "yargs": "^5.0.0"
   },
