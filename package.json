@@ -8,8 +8,10 @@
   },
   "scripts": {
     "test": "mocha",
-    "coverage": "istanbul cover --dir coverage node_modules/mocha/bin/_mocha",
-    "start": "node bin/cli.js"
+    "coverage": "nyc mocha",
+    "report": "nyc report --reporter=lcov",
+    "start": "node bin/cli.js",
+    "nyc": "nyc"
   },
   "author": "Kiril Vatev <vatev.1@gmail.com>",
   "license": "ISC",
@@ -30,8 +32,8 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
     "rimraf": "^2.6.1"
   },
   "repository": {
