@@ -7,8 +7,6 @@ var _ = require('lodash');
 var gutil = require('gulp-util');
 var hitime = require('hitime');
 
-global.__base = require('rootrequire');
-
 var LIST = {
     git: {
         task: require('./src/git-init.js')
