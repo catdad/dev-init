@@ -104,12 +104,8 @@ describe('[bin]', function () {
         }
     }
     function teardown() {
-//        rimraf.sync(temp);
+        rimraf.sync(temp);
     }
-
-    before(function () {
-        setup();
-    });
 
     beforeEach(function () {
         teardown();
@@ -182,7 +178,7 @@ describe('[bin]', function () {
                         .and.to.have.length.above(0)
                         .and.to.contain(task);
 
-                    assert.git(done);
+                    assert[task](done);
                 });
             });
         });
