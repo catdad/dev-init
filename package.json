@@ -9,7 +9,9 @@
   "scripts": {
     "test": "mocha",
     "coverage": "nyc mocha",
-    "start": "node bin/cli.js"
+    "report": "nyc report --reporter=lcov",
+    "start": "node bin/cli.js",
+    "nyc": "nyc"
   },
   "author": "Kiril Vatev <vatev.1@gmail.com>",
   "license": "ISC",
