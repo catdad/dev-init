@@ -68,6 +68,15 @@ var assert = {
     },
     editorconfig: function assertEditorconfig(done) {
         assertFile('.editorconfig', done);
+    },
+    gitignore: function assertGitignore(done) {
+        assertFile('.gitignore', done);
+    },
+    gitattributes: function assertGitattributes(done) {
+        assertFile('.gitattributes', done);
+    },
+    readme: function assertReadme(done) {
+        assertFile('README.md', done);
     }
 };
 
