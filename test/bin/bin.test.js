@@ -47,7 +47,6 @@ var assert = {
             done();
         });
     }
-
 };
 
 
@@ -111,20 +110,27 @@ describe('[bin]', function () {
         listTests('ls');
     });
 
-    describe('"git" task', function () {
-        it('runs as expected', function (done) {
-            shell('--include git', function (err, stdout, stderr) {
-                if (err) {
-                    return done(err);
-                }
+    index.taskNames.forEach(function (task) {
+        describe(util.format('"%s" task', task), function () {
+            it('runs as expected', function (done) {
+                // make sure we have added an assertion for this task
+                expect(assert).to.have.property(task);
 
-                expect(stdout)
-                    .to.be.a('string')
-                    .and.to.have.length.above(0)
-                    .and.to.contain('git');
+                shell('--include ' + task, function (err, stdout, stderr) {
+                    if (err) {
+                        return done(err);
+                    }
 
-                assert.git(done);
+                    expect(stdout)
+                        .to.be.a('string')
+                        .and.to.have.length.above(0)
+                        .and.to.contain(task);
+
+                    assert.git(done);
+                });
             });
         });
     });
+
+
 });
