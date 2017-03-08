@@ -65,6 +65,9 @@ var assert = {
     },
     brackets: function assertBrackets(done) {
         assertFile('.brackets.json', done);
+    },
+    editorconfig: function assertEditorconfig(done) {
+        assertFile('.editorconfig', done);
     }
 };
 
