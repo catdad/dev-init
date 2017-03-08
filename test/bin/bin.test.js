@@ -71,12 +71,28 @@ var assert = {
 
 describe('[bin]', function () {
     function setup() {
-        mkdirp.sync(temp, {
-            mode: '0777'
-        });
+        var count = 5;
+        var err;
+
+        while (count) {
+            try {
+                mkdirp.sync(temp, {
+                    mode: '0777'
+                });
+                count = 0;
+                err = null;
+            } catch(e) {
+                err = e;
+                count -= 1;
+            }
+        }
+
+        if (err) {
+            throw err;
+        }
     }
     function teardown() {
-        rimraf.sync(temp);
+//        rimraf.sync(temp);
     }
 
     before(function () {
