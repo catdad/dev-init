@@ -2,6 +2,7 @@
 
 var util = require('util');
 var path = require('path');
+var fs = require('fs');
 
 var expect = require('chai').expect;
 var root = require('rootrequire');
@@ -28,6 +29,22 @@ function shell(opts, done) {
     };
 
     shellton(opts, done);
+}
+
+function assertGit(done) {
+    fs.stat(path.resolve(temp, '.git'), function (err, stat) {
+        if (err) {
+            return done(err);
+        }
+
+        try {
+            expect(stat.isDirectory()).to.equal(true);
+        } catch(e) {
+            return done(e);
+        }
+
+        done();
+    });
 }
 
 describe('[bin]', function () {
@@ -88,5 +105,22 @@ describe('[bin]', function () {
 
     describe('ls', function () {
         listTests('ls');
+    });
+
+    describe('"git" task', function () {
+        it('runs as expected', function (done) {
+            shell('--include git', function (err, stdout, stderr) {
+                if (err) {
+                    return done(err);
+                }
+
+                expect(stdout)
+                    .to.be.a('string')
+                    .and.to.have.length.above(0)
+                    .and.to.contain('git');
+
+                assertGit(done);
+            });
+        });
     });
 });
