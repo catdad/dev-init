@@ -31,6 +31,22 @@ function shell(opts, done) {
     shellton(opts, done);
 }
 
+function assertFile(filename, done) {
+    fs.stat(path.resolve(temp, filename), function (err, stat) {
+        if (err) {
+            return done(err);
+        }
+
+        try {
+            expect(stat.isFile()).to.equal(true);
+        } catch(e) {
+            return done(e);
+        }
+
+        done();
+    });
+}
+
 var assert = {
     git: function assertGit(done) {
         fs.stat(path.resolve(temp, '.git'), function (err, stat) {
@@ -46,22 +62,34 @@ var assert = {
 
             done();
         });
+    },
+    brackets: function assertBrackets(done) {
+        assertFile('.brackets.json', done);
     }
 };
 
 
 describe('[bin]', function () {
+    function setup() {
+        mkdirp.sync(temp, {
+            mode: '0777'
+        });
+    }
+    function teardown() {
+        rimraf.sync(temp);
+    }
+
     before(function () {
-        mkdirp.sync(temp);
+        setup();
     });
 
     beforeEach(function () {
-        rimraf.sync(temp);
-        mkdirp.sync(temp);
+        teardown();
+        setup();
     });
 
     after(function () {
-        rimraf.sync(temp);
+        teardown();
     });
 
     function listTests(command) {
