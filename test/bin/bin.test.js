@@ -31,6 +31,22 @@ function shell(opts, done) {
     shellton(opts, done);
 }
 
+function assertFile(filename, done) {
+    fs.stat(path.resolve(temp, filename), function (err, stat) {
+        if (err) {
+            return done(err);
+        }
+
+        try {
+            expect(stat.isFile()).to.equal(true);
+        } catch(e) {
+            return done(e);
+        }
+
+        done();
+    });
+}
+
 var assert = {
     git: function assertGit(done) {
         fs.stat(path.resolve(temp, '.git'), function (err, stat) {
@@ -46,23 +62,58 @@ var assert = {
 
             done();
         });
+    },
+    brackets: function assertBrackets(done) {
+        assertFile('.brackets.json', done);
+    },
+    editorconfig: function assertEditorconfig(done) {
+        assertFile('.editorconfig', done);
+    },
+    gitignore: function assertGitignore(done) {
+        assertFile('.gitignore', done);
+    },
+    gitattributes: function assertGitattributes(done) {
+        assertFile('.gitattributes', done);
+    },
+    readme: function assertReadme(done) {
+        assertFile('README.md', done);
     }
-
 };
 
 
 describe('[bin]', function () {
-    before(function () {
-        mkdirp.sync(temp);
-    });
+    function setup() {
+        var count = 5;
+        var err;
+
+        while (count) {
+            try {
+                mkdirp.sync(temp, {
+                    mode: '0777'
+                });
+                count = 0;
+                err = null;
+            } catch(e) {
+                err = e;
+                count -= 1;
+            }
+        }
+
+        if (err) {
+            throw err;
+        }
+    }
+    function teardown() {
+        rimraf.sync(temp);
+    }
 
     beforeEach(function () {
-        rimraf.sync(temp);
-        mkdirp.sync(temp);
+        teardown();
+        setup();
     });
 
     after(function () {
-        rimraf.sync(temp);
+        teardown();
     });
 
     function listTests(command) {
@@ -111,20 +162,27 @@ describe('[bin]', function () {
         listTests('ls');
     });
 
-    describe('"git" task', function () {
-        it('runs as expected', function (done) {
-            shell('--include git', function (err, stdout, stderr) {
-                if (err) {
-                    return done(err);
-                }
+    index.taskNames.forEach(function (task) {
+        describe(util.format('"%s" task', task), function () {
+            it('runs as expected', function (done) {
+                // make sure we have added an assertion for this task
+                expect(assert).to.have.property(task);
 
-                expect(stdout)
-                    .to.be.a('string')
-                    .and.to.have.length.above(0)
-                    .and.to.contain('git');
+                shell('--include ' + task, function (err, stdout, stderr) {
+                    if (err) {
+                        return done(err);
+                    }
 
-                assert.git(done);
+                    expect(stdout)
+                        .to.be.a('string')
+                        .and.to.have.length.above(0)
+                        .and.to.contain(task);
+
+                    assert[task](done);
+                });
             });
         });
     });
+
+
 });
