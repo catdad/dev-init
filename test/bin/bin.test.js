@@ -10,6 +10,7 @@ var shellton = require('shellton');
 var _ = require('lodash');
 var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
+var async = require('async');
 
 var index = require(root);
 
@@ -188,5 +189,22 @@ describe('[bin]', function () {
         });
     });
 
+    it('runs all tasks by default', function (done) {
+        shell('', function (err, stdout, stderr) {
+            if (err) {
+                return done(err);
+            }
+
+            expect(stdout).to.be.a('string').and.to.have.length.above(0);
+
+            index.taskNames.forEach(function (task) {
+                expect(stdout).to.contain(task);
+            });
+
+            async.parallel(_.map(assert, function (func) {
+                return func;
+            }), done);
+        });
+    });
 
 });
