@@ -9,7 +9,6 @@
   "scripts": {
     "test": "mocha",
     "coverage": "nyc mocha",
-    "report": "nyc report --reporter=lcov",
     "start": "node bin/cli.js",
     "nyc": "nyc"
   },
@@ -44,5 +43,11 @@
     "url": "https://github.com/catdad/dev-init/issues"
   },
   "homepage": "https://github.com/catdad/dev-init#readme",
-  "keywords": []
+  "keywords": [],
+  "nyc": {
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  }
 }
