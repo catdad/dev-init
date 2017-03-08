@@ -44,9 +44,9 @@ describe('[bin]', function () {
         rimraf.sync(temp);
     });
 
-    describe('ls', function () {
+    function listTests(command) {
         it('lists all of the tsaks', function (done) {
-            shell('ls', function (err, stdout, stderr) {
+            shell(command, function (err, stdout, stderr) {
                 if (err) {
                     return done(err);
                 }
@@ -64,7 +64,7 @@ describe('[bin]', function () {
         });
 
         it('lists additional tasks with the "--all" flag', function (done) {
-            shell('ls --all', function (err, stdout, stderr) {
+            shell(command + ' --all', function (err, stdout, stderr) {
                 if (err) {
                     return done(err);
                 }
@@ -80,5 +80,13 @@ describe('[bin]', function () {
                 done();
             });
         });
+    }
+
+    describe('list', function () {
+        listTests('ls');
+    });
+
+    describe('ls', function () {
+        listTests('ls');
     });
 });
