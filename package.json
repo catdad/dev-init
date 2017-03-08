@@ -7,7 +7,8 @@
     "dev-init": "bin/cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
+    "coverage": "istanbul cover --dir coverage node_modules/mocha/bin/_mocha",
     "start": "node bin/cli.js"
   },
   "author": "Kiril Vatev <vatev.1@gmail.com>",
@@ -27,7 +28,11 @@
     "terminal-menu": "^2.1.1",
     "yargs": "^5.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/catdad/dev-init.git"
@@ -35,5 +40,6 @@
   "bugs": {
     "url": "https://github.com/catdad/dev-init/issues"
   },
-  "homepage": "https://github.com/catdad/dev-init#readme"
+  "homepage": "https://github.com/catdad/dev-init#readme",
+  "keywords": []
 }
