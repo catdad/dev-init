@@ -82,6 +82,10 @@ var assert = {
 
 
 describe('[bin]', function () {
+    // these spawn stuff, run through nyc, etc.
+    // so they can take a while
+    this.timeout(5000);
+
     function setup() {
         var count = 5;
         var err;
