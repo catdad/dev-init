@@ -1,13 +1,18 @@
 # dev-init
 
 [![Build][1]][2]
+[![Test Coverage][3]][4]
 [![Downloads][7]][8]
 [![Version][9]][8]
 [![Dependency Status][10]][11]
 ![Kiril approved][ka]
 
+
 [1]: https://travis-ci.org/catdad/dev-init.svg?branch=master
 [2]: https://travis-ci.org/catdad/dev-init
+
+[3]: https://coveralls.io/repos/github/catdad/dev-init/badge.svg?branch=master
+[4]: https://coveralls.io/github/catdad/dev-init?branch=master
 
 [7]: https://img.shields.io/npm/dm/dev-init.svg
 [8]: https://www.npmjs.com/package/dev-init
