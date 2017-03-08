@@ -1,12 +1,12 @@
 /* jshint node: true */
-/* global __base */
 
 var path = require('path');
 var util = require('util');
 
 var shellton = require('shellton');
+var root = require('rootrequire');
 
-var fsExists = require(path.posix.join(__base, 'util', 'fs-exists.js'));
+var fsExists = require(path.posix.join(root, 'util', 'fs-exists.js'));
 
 function logOutput(opts) {
     return function log() {

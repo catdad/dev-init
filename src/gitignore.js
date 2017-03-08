@@ -1,10 +1,10 @@
 /* jshint node: true */
-/* global __base */
 
 var path = require('path');
 var lines = require('line-merge');
+var root = require('rootrequire');
 
-var mergeFile = require(path.posix.join(__base, 'util', 'merge-file.js'));
+var mergeFile = require(path.posix.join(root, 'util', 'merge-file.js'));
 
 function validateStr(str) {
     if (!str || typeof str !== 'string' || str.trim() === '') {
@@ -26,7 +26,7 @@ function merge(existing, source) {
 
 module.exports = function bracketsFile(opts, done) {
     mergeFile({
-        source: path.resolve(__base, 'fixtures/gitignore'),
+        source: path.resolve(root, 'fixtures/gitignore'),
         dest: path.resolve('.', '.gitignore'),
         argv: opts,
         mergeFunction: merge

@@ -7,7 +7,7 @@ var _ = require('lodash');
 var gutil = require('gulp-util');
 var hitime = require('hitime');
 
-global.__base = path.resolve(__dirname);
+global.__base = require('rootrequire');
 
 var LIST = {
     git: {

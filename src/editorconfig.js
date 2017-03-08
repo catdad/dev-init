@@ -1,12 +1,12 @@
 /* jshint node: true */
-/* global __base */
 
 var path = require('path');
 
 var ec = require('editorconfig-parser');
 var _ = require('lodash');
+var root = require('rootrequire');
 
-var mergeFile = require(path.posix.join(__base, 'util', 'merge-file.js'));
+var mergeFile = require(path.posix.join(root, 'util', 'merge-file.js'));
 
 var DEFAULT_SPACES = 4;
 
@@ -40,7 +40,7 @@ function getSpaces(opts) {
 
 module.exports = function bracketsFile(opts, done) {
     mergeFile({
-        source: path.resolve(__base, 'fixtures/editorconfig'),
+        source: path.resolve(root, 'fixtures/editorconfig'),
         dest: path.resolve('.', '.editorconfig'),
         data: {
             spaces: getSpaces(opts)
