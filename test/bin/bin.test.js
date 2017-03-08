@@ -33,31 +33,52 @@ describe('[bin]', function () {
                 expect(stdout).to.contain(task);
             });
 
-            async.parallel(_.map(assert, function (func) {
-                return func;
+            async.parallel(_.map(index.taskNames, function (name) {
+                return assert[name];
             }), done);
         });
     });
 
+    function taskTest(task, allFlag) {
+        it('runs as expected', function (done) {
+            // make sure we have added an assertion for this task
+            expect(assert).to.have.property(task);
+
+            var command = '--include ' + task;
+
+            if (allFlag) {
+                command += ' --all';
+            }
+
+            shell(command, function (err, stdout, stderr) {
+                if (err) {
+                    return done(err);
+                }
+
+                expect(stdout)
+                    .to.be.a('string')
+                    .and.to.have.length.above(0)
+                    .and.to.contain(task);
+
+                assert[task](done);
+            });
+        });
+    }
+
     index.taskNames.forEach(function (task) {
         describe(util.format('"%s" task', task), function () {
-            it('runs as expected', function (done) {
-                // make sure we have added an assertion for this task
-                expect(assert).to.have.property(task);
+            taskTest(task, false);
+        });
+    });
 
-                shell('--include ' + task, function (err, stdout, stderr) {
-                    if (err) {
-                        return done(err);
-                    }
+    index.additionalNames.forEach(function (task) {
+        describe(util.format('"%s" task with the --all flag', task), function () {
+            // two minutes is extreme...
+            // npm-install usually takes about 8 seconds, but I want to
+            // be sure... networks can be slow sometimes
+            this.timeout(2 * 60 * 1000);
 
-                    expect(stdout)
-                        .to.be.a('string')
-                        .and.to.have.length.above(0)
-                        .and.to.contain(task);
-
-                    assert[task](done);
-                });
-            });
+            taskTest(task, true);
         });
     });
 

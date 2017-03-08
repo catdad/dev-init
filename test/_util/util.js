@@ -45,6 +45,10 @@ function assertFile(filename, done) {
     });
 }
 
+function readFile(filename, done) {
+    fs.readFile(path.resolve(temp, filename), 'utf8', done);
+}
+
 var assert = {
     git: function assertGit(done) {
         fs.stat(path.resolve(temp, '.git'), function (err, stat) {
@@ -75,6 +79,32 @@ var assert = {
     },
     readme: function assertReadme(done) {
         assertFile('README.md', done);
+    },
+    npm: function assertNpm(done) {
+        assertFile('package.json', done);
+    },
+    'npm-test': function assertNpmTest(done) {
+        readFile('package.json', function (err, content) {
+            if (err) {
+                return done(err);
+            }
+
+            try {
+                var json = JSON.parse(content);
+
+                expect(json).to.have.property('devDependencies')
+                    .and.to.be.an('object')
+                    .and.to.have.keys(['mocha', 'istanbul', 'chai']);
+
+                expect(json).to.have.property('scripts')
+                    .and.to.be.an('object')
+                    .and.to.have.keys(['test', 'coverage']);
+            } catch (e) {
+                return done(e);
+            }
+
+            done();
+        });
     }
 };
 
