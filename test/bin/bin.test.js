@@ -121,6 +121,46 @@ describe('[bin]', function () {
         teardown();
     });
 
+    it('runs all tasks by default', function (done) {
+        shell('', function (err, stdout, stderr) {
+            if (err) {
+                return done(err);
+            }
+
+            expect(stdout).to.be.a('string').and.to.have.length.above(0);
+
+            index.taskNames.forEach(function (task) {
+                expect(stdout).to.contain(task);
+            });
+
+            async.parallel(_.map(assert, function (func) {
+                return func;
+            }), done);
+        });
+    });
+
+    index.taskNames.forEach(function (task) {
+        describe(util.format('"%s" task', task), function () {
+            it('runs as expected', function (done) {
+                // make sure we have added an assertion for this task
+                expect(assert).to.have.property(task);
+
+                shell('--include ' + task, function (err, stdout, stderr) {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    expect(stdout)
+                        .to.be.a('string')
+                        .and.to.have.length.above(0)
+                        .and.to.contain(task);
+
+                    assert[task](done);
+                });
+            });
+        });
+    });
+
     function listTests(command) {
         it('lists all of the tsaks', function (done) {
             shell(command, function (err, stdout, stderr) {
@@ -166,45 +206,4 @@ describe('[bin]', function () {
     describe('ls', function () {
         listTests('ls');
     });
-
-    index.taskNames.forEach(function (task) {
-        describe(util.format('"%s" task', task), function () {
-            it('runs as expected', function (done) {
-                // make sure we have added an assertion for this task
-                expect(assert).to.have.property(task);
-
-                shell('--include ' + task, function (err, stdout, stderr) {
-                    if (err) {
-                        return done(err);
-                    }
-
-                    expect(stdout)
-                        .to.be.a('string')
-                        .and.to.have.length.above(0)
-                        .and.to.contain(task);
-
-                    assert[task](done);
-                });
-            });
-        });
-    });
-
-    it('runs all tasks by default', function (done) {
-        shell('', function (err, stdout, stderr) {
-            if (err) {
-                return done(err);
-            }
-
-            expect(stdout).to.be.a('string').and.to.have.length.above(0);
-
-            index.taskNames.forEach(function (task) {
-                expect(stdout).to.contain(task);
-            });
-
-            async.parallel(_.map(assert, function (func) {
-                return func;
-            }), done);
-        });
-    });
-
 });
