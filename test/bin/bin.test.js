@@ -31,21 +31,25 @@ function shell(opts, done) {
     shellton(opts, done);
 }
 
-function assertGit(done) {
-    fs.stat(path.resolve(temp, '.git'), function (err, stat) {
-        if (err) {
-            return done(err);
-        }
+var assert = {
+    git: function assertGit(done) {
+        fs.stat(path.resolve(temp, '.git'), function (err, stat) {
+            if (err) {
+                return done(err);
+            }
 
-        try {
-            expect(stat.isDirectory()).to.equal(true);
-        } catch(e) {
-            return done(e);
-        }
+            try {
+                expect(stat.isDirectory()).to.equal(true);
+            } catch(e) {
+                return done(e);
+            }
 
-        done();
-    });
-}
+            done();
+        });
+    }
+
+};
+
 
 describe('[bin]', function () {
     before(function () {
@@ -119,7 +123,7 @@ describe('[bin]', function () {
                     .and.to.have.length.above(0)
                     .and.to.contain('git');
 
-                assertGit(done);
+                assert.git(done);
             });
         });
     });
