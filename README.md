@@ -11,7 +11,7 @@
 [1]: https://travis-ci.org/catdad/dev-init.svg?branch=master
 [2]: https://travis-ci.org/catdad/dev-init
 
-[3]: https://coveralls.io/repos/github/catdad/dev-init/badge.svg?branch=master
+[3]: https://img.shields.io/coveralls/catdad/dev-init.svg
 [4]: https://coveralls.io/github/catdad/dev-init?branch=master
 
 [5]: https://www.bithound.io/github/catdad/dev-init/badges/score.svg
