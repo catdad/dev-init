@@ -2,6 +2,7 @@
 
 [![Build][1]][2]
 [![Test Coverage][3]][4]
+[![bitHound Overall Score][5]][6]
 [![Downloads][7]][8]
 [![Version][9]][8]
 [![Dependency Status][10]][11]
@@ -12,6 +13,9 @@
 
 [3]: https://coveralls.io/repos/github/catdad/dev-init/badge.svg?branch=master
 [4]: https://coveralls.io/github/catdad/dev-init?branch=master
+
+[5]: https://www.bithound.io/github/catdad/dev-init/badges/score.svg
+[6]: https://www.bithound.io/github/catdad/dev-init
 
 [7]: https://img.shields.io/npm/dm/dev-init.svg
 [8]: https://www.npmjs.com/package/dev-init
