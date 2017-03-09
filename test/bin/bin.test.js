@@ -39,6 +39,53 @@ describe('[bin]', function () {
         });
     });
 
+    it('can include only specific tasks using the "--include" flag', function (done) {
+        var include = ['brackets', 'editorconfig'];
+
+        shell('--include ' + include.join(' '), function (err, stdout, stderr) {
+            if (err) {
+                return done(err);
+            }
+
+            expect(stdout).to.be.a('string')
+                .and.to.have.length.above(0);
+
+            include.forEach(function (name) {
+                expect(stdout).to.contain(name);
+            });
+
+            var tasks = include.map(function (name) {
+                return assert[name];
+            });
+
+            async.parallel(tasks, done);
+        });
+    });
+
+    it('can exclude specific tasks using the "--exclude" flag', function (done) {
+        var include = ['brackets', 'editorconfig'];
+        var exclude = _.difference(index.taskNames, include);
+
+        shell('--exclude ' + exclude.join(' '), function (err, stdout, stderr) {
+            if (err) {
+                return done(err);
+            }
+
+            expect(stdout).to.be.a('string')
+                .and.to.have.length.above(0);
+
+            include.forEach(function (name) {
+                expect(stdout).to.contain(name);
+            });
+
+            var tasks = include.map(function (name) {
+                return assert[name];
+            });
+
+            async.parallel(tasks, done);
+        });
+    });
+
     function taskTest(task, allFlag) {
         it('runs as expected', function (done) {
             // make sure we have added an assertion for this task
