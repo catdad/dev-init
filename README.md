@@ -7,7 +7,6 @@
 [![Dependency Status][10]][11]
 ![Kiril approved][ka]
 
-
 [1]: https://travis-ci.org/catdad/dev-init.svg?branch=master
 [2]: https://travis-ci.org/catdad/dev-init
 

@@ -121,7 +121,7 @@ describe('[bin]', function () {
     }
 
     describe('list', function () {
-        listTests('ls');
+        listTests('list');
     });
 
     describe('ls', function () {
