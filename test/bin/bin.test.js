@@ -86,6 +86,20 @@ describe('[bin]', function () {
         });
     });
 
+    it('errors if "--force" and "--safe" are used together', function (done) {
+        shell('--force --safe', function (err, stdout, stderr) {
+            expect(err).to.be.instanceOf(Error)
+                .and.to.have.property('code')
+                .and.to.equal(1);
+
+            expect(stdout).to.be.a('string').and.to.have.lengthOf(0);
+
+            expect(stderr).to.be.a('string').and.to.contain('cannot use both force and safe');
+
+            done();
+        });
+    });
+
     function taskTest(task, allFlag) {
         it('runs as expected', function (done) {
             // make sure we have added an assertion for this task
