@@ -7,20 +7,13 @@ var _ = require('lodash');
 var root = require('rootrequire');
 
 var mergeFile = require(path.posix.join(root, 'util', 'merge-file.js'));
+var validString = require(path.posix.join(root, 'util', 'valid-string.js'));
 
 var DEFAULT_SPACES = 4;
 
-function validateStr(str) {
-    if (!str || typeof str !== 'string' || str.trim() === '') {
-        return '';
-    }
-
-    return str;
-}
-
 function merge(existing, source) {
-    existing = validateStr(existing);
-    source = validateStr(source);
+    existing = validString(existing);
+    source = validString(source);
 
     // let these throw, the merge helper will
     // catch errors and handle them correctly
