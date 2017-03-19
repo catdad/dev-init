@@ -5,21 +5,14 @@ var lines = require('line-merge');
 var root = require('rootrequire');
 
 var mergeFile = require(path.posix.join(root, 'util', 'merge-file.js'));
-
-function validateStr(str) {
-    if (!str || typeof str !== 'string' || str.trim() === '') {
-        return '';
-    }
-
-    return str;
-}
+var validString = require(path.posix.join(root, 'util', 'valid-string.js'));
 
 // .gitignore is just a list of patterns, so we can actually merge
 // all the lines and everything will be fine. I'll still try to
 // preserve comments though.
 function merge(existing, source) {
-    existing = validateStr(existing);
-    source = validateStr(source);
+    existing = validString(existing);
+    source = validString(source);
 
     return lines.merge(existing, source);
 }
