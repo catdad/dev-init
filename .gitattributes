@@ -27,4 +27,4 @@
 *.RTF    diff=astextplain
 
 # fixtures in this repo
-fixtures/ text eol=lf
+fixtures/** text eol=lf
