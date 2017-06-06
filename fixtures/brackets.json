@@ -11,6 +11,6 @@
         }
     },
     "language.fileNames": {
-        "Jenkinsfile": "groovy",
+        "Jenkinsfile": "groovy"
     }
 }
