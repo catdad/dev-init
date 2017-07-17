@@ -9,5 +9,8 @@
         "markdown": {
             "wordWrap": true
         }
+    },
+    "language.fileNames": {
+        "Jenkinsfile": "groovy"
     }
 }
