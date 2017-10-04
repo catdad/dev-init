@@ -1,6 +1,6 @@
 {
   "name": "dev-init",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Initialize a new project with Kiril-approved settings",
   "main": "index.js",
   "bin": {
