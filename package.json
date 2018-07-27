@@ -22,7 +22,7 @@
     "gulp-util": "^3.0.7",
     "hitime": "^0.3.0",
     "line-merge": "0.0.3",
-    "lodash": "^4.13.1",
+    "lodash": "^4.17.10",
     "mkdirp": "^0.5.1",
     "node-stream": "^1.5.0",
     "rootrequire": "^1.0.0",
